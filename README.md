@@ -1,4 +1,7 @@
+[![](https://jitpack.io/v/shenguojun/GlidePaletteBlur.svg)](https://jitpack.io/#shenguojun/GlidePaletteBlur)
+
 # GlidePaletteBlur
+
 Combined with Glide to generate palette color or blur bitmap, Gif supported.
 
 <img src="./Screenshot.jpg" alt="Screenshot" width=30% height=30% />
@@ -46,7 +49,7 @@ Combined with Glide to generate palette color or blur bitmap, Gif supported.
 
    ```groovy
    dependencies {
-     implementation 'com.github.shenguojun:GlidePaletteBlur:main-SNAPSHOT'
+     implementation 'com.github.shenguojun:GlidePaletteBlur:v1.0.0'
    }
    ```
 

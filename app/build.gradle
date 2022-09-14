@@ -45,9 +45,9 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     implementation 'androidx.palette:palette-ktx:1.0.0'
-    implementation 'com.github.shenguojun:renderscript-intrinsics-replacement-toolkit:main-SNAPSHOT'
 
     implementation project(':library')
+//    implementation 'com.github.shenguojun:GlidePaletteBlur:v1.0.0'
 
     kapt 'com.github.bumptech.glide:compiler:4.13.2'
 
