@@ -30,3 +30,24 @@ Combined with Glide to generate palette color or blur bitmap, Gif supported.
    ```
 
    
+
+3. Add to project:
+
+   ```groovy
+   allprojects {
+     repositories {
+       ...
+         maven { url 'https://jitpack.io' }
+     }
+   }
+   ```
+
+4. Add dependency:
+
+   ```groovy
+   dependencies {
+     implementation 'com.github.shenguojun:GlidePaletteBlur:main-SNAPSHOT'
+   }
+   ```
+
+Have fun!
