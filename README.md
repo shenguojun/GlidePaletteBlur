@@ -1,7 +1,7 @@
 # GlidePaletteBlur
-Combined with Glide to generate palette color or blur bitmap.
+Combined with Glide to generate palette color or blur bitmap, Gif supported.
 
-<img src="./Screenshot.jpg" alt="Screenshot" style="zoom: 25%;" />
+<img src="./Screenshot.jpg" alt="Screenshot" width=30% height=30% />
 
 ## How to use
 1. For Palette:
