@@ -47,7 +47,7 @@ dependencies {
     implementation 'androidx.palette:palette-ktx:1.0.0'
 
     implementation project(':library')
-//    implementation 'com.github.shenguojun:GlidePaletteBlur:v1.0.0'
+//    implementation 'com.github.shenguojun:GlidePaletteBlur:v1.1.0'
 
     kapt 'com.github.bumptech.glide:compiler:4.13.2'
 

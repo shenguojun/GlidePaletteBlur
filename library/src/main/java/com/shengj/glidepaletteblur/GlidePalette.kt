@@ -1,11 +1,11 @@
 package com.shengj.glidepaletteblur
 
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.Color
 import android.graphics.drawable.Drawable
+import androidx.annotation.ColorInt
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import java.lang.ref.WeakReference
@@ -47,18 +47,14 @@ class GlidePalette : RequestListener<Drawable> {
         dataSource: DataSource?,
         isFirstResource: Boolean
     ): Boolean {
-        when (resource) {
-            is BitmapDrawable -> {
-                resource.bitmap
-            }
-            is GifDrawable -> {
-                resource.firstFrame
-            }
-            else -> null
-        }?.let {
-            val callbackRef = WeakReference(callback)
-            Palette.from(it).generate { palette ->
-                callbackRef.get()?.invoke(palette)
+        resource.getBitmap().let { bitmap ->
+            if (bitmap != null) {
+                val callbackRef = WeakReference(callback)
+                Palette.from(bitmap).generate { palette ->
+                    callbackRef.get()?.invoke(palette)
+                }
+            } else {
+                callback?.invoke(null)
             }
         }
         return false
@@ -73,23 +69,25 @@ class GlidePalette : RequestListener<Drawable> {
 typealias GlidePaletteCallback = (Palette?) -> Unit
 
 /**
- * 获取[Palette]浅色色值
+ * 根据[Palette]选择合适的浅色背景色
  *
- * Get light color from [Palette]
+ * Returns the appropriate color to use for view background in light mode
  */
-fun Palette.lightColor(): Int? {
-    return lightVibrantSwatch?.rgb
-        ?: lightMutedSwatch?.rgb
-        ?: vibrantSwatch?.rgb
+fun Palette.lightBackground(@ColorInt defaultColor: Int = Color.TRANSPARENT): Int {
+    val hsv = dominantSwatch?.hsl ?: return defaultColor
+    if (hsv[1] < 0.02f || hsv[1] > 0.1f) hsv[1] = 0.05f
+    if (hsv[2] < 0.9f || hsv[2] > 0.98f) hsv[2] = 0.95f
+    return Color.HSVToColor(hsv)
 }
 
 /**
- * 获取[Palette]深色色值
+ * 根据[Palette]选择合适的深色背景色
  *
- * Get dark color from [Palette]
+ * Returns the appropriate color to use for view background in dark mode
  */
-fun Palette.darkColor(): Int? {
-    return darkMutedSwatch?.rgb
-        ?: darkVibrantSwatch?.rgb
-        ?: mutedSwatch?.rgb
+fun Palette.darkBackground(@ColorInt defaultColor: Int = Color.TRANSPARENT): Int {
+    val hsv = dominantSwatch?.hsl ?: return defaultColor
+    if (hsv[1] < 0.3f || hsv[1] > 0.4f) hsv[1] = 0.35f
+    if (hsv[2] < 0.25f || hsv[2] > 0.3f) hsv[2] = 0.27f
+    return Color.HSVToColor(hsv)
 }

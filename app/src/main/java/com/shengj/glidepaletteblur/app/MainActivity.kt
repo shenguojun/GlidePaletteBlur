@@ -1,10 +1,15 @@
 package com.shengj.glidepaletteblur.app
 
+import android.content.res.Configuration
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.shengj.glidepaletteblur.*
 import com.shengj.glidepaletteblur.app.databinding.ActivityMainBinding
@@ -15,8 +20,8 @@ class MainActivity : AppCompatActivity() {
         Glide.with(view)
             .load(image)
             .listener(GlidePalette().generate { palette ->
-                palette?.darkColor()?.let { paletteColor ->
-                    view.ofTypeParent<ConstraintLayout>()?.setBackgroundColor(paletteColor)
+                getBgFromPalette(palette).let { color ->
+                    view.ofTypeParent<ConstraintLayout>()?.setBackgroundColor(color)
                 }
             })
             .into(view)
@@ -73,5 +78,24 @@ class MainActivity : AppCompatActivity() {
         "https://media1.giphy.com/media/ENcROyB1aZIk4KchRS/giphy.gif?cid=ecf05e472d6ad75d52b4642b4f1441e0699b554afb4add83&rid=giphy.gif&ct=g",
         "https://media4.giphy.com/media/sNcG8zOLxIwMgKGiMh/giphy.gif?cid=ecf05e479c6828a7c8ef584f0d3f792de57ed01e5650eec6&rid=giphy.gif&ct=g"
     )
+
+    @ColorInt
+    private fun getBgFromPalette(palette: Palette?): Int {
+        val darkDefault = Color.parseColor("#263040")
+        val lightDefault = Color.parseColor("#E8EFF9")
+        return if (isNightMode(this)) {
+            palette?.darkBackground(darkDefault) ?: darkDefault
+        } else {
+            palette?.lightBackground(lightDefault) ?: lightDefault
+        }
+    }
+
+    private fun isNightMode(context: AppCompatActivity): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return false
+        return when (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
+    }
 
 }

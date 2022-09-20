@@ -1,11 +1,9 @@
 package com.shengj.glidepaletteblur
 
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.renderscript.Toolkit
@@ -49,17 +47,13 @@ class GlideBlur : RequestListener<Drawable> {
         dataSource: DataSource?,
         isFirstResource: Boolean
     ): Boolean {
-        when (resource) {
-            is BitmapDrawable -> {
-                resource.bitmap
+        resource.getBitmap().let { bitmap ->
+            if (bitmap != null) {
+                val blurBitmap = Toolkit.blur(bitmap, radius)
+                callback?.invoke(blurBitmap)
+            } else {
+                callback?.invoke(null)
             }
-            is GifDrawable -> {
-                resource.firstFrame
-            }
-            else -> null
-        }?.let {
-            val blurBitmap = Toolkit.blur(it, radius)
-            callback?.invoke(blurBitmap)
         }
         return false
     }

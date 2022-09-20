@@ -2,9 +2,15 @@
 
 # GlidePaletteBlur
 
-Combined with Glide to generate palette color or blur bitmap, Gif supported.
+Combined with Glide to generate palette color or blur bitmap.
 
-<img src="./Screenshot.jpg" alt="Screenshot" width=30% height=30% />
+- [x] Gif supported
+- [x] Dark theme supported
+
+<p align="center">
+  <img alt="Light" src="./Screenshot.jpg" width=30% height=30% />
+  <img alt="Dark" src="./Screenshot_dark.jpg" width=30% height=30% />
+</p>
 
 ## How to use
 1. For Palette:
@@ -13,8 +19,8 @@ Combined with Glide to generate palette color or blur bitmap, Gif supported.
    Glide.with(view)
        .load(image)
        .listener(GlidePalette().generate { palette ->
-           palette?.darkColor()?.let { paletteColor ->
-               view.ofTypeParent<ConstraintLayout>()?.setBackgroundColor(paletteColor)
+           getBgFromPalette(palette).let { color ->
+               view.ofTypeParent<ConstraintLayout>()?.setBackgroundColor(color)
            }
        })
        .into(view)
@@ -39,7 +45,7 @@ Combined with Glide to generate palette color or blur bitmap, Gif supported.
    ```groovy
    allprojects {
      repositories {
-       ...
+       // ...
          maven { url 'https://jitpack.io' }
      }
    }
@@ -49,7 +55,7 @@ Combined with Glide to generate palette color or blur bitmap, Gif supported.
 
    ```groovy
    dependencies {
-     implementation 'com.github.shenguojun:GlidePaletteBlur:v1.0.0'
+     implementation 'com.github.shenguojun:GlidePaletteBlur:v1.1.0'
    }
    ```
 
