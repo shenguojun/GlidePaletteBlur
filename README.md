@@ -55,7 +55,7 @@ Combined with Glide to generate palette color or blur bitmap.
 
    ```groovy
    dependencies {
-     implementation 'com.github.shenguojun:GlidePaletteBlur:v1.1.0'
+     implementation 'com.github.shenguojun:GlidePaletteBlur:1.1.0'
    }
    ```
 
